@@ -14,8 +14,6 @@
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 
-#include <memory>
-#include <string>
 #include <math.h>
 #include <iostream>
 

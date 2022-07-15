@@ -10,6 +10,11 @@
  */
 #include "Cell.hpp"
 
+#define MAX_COLOR_VALUE 255
+#define MIN_COLOR_VALUE 0
+#define GRAY_COLOR_VALUE 51
+#define CELL_DIMENSION 32
+
 /**
  * @brief Construct a new Cell object.
  * 
@@ -30,10 +35,10 @@ Cell::Cell(SDL_Renderer *renderer, int x, int y) :
     m_y{y}, 
     m_renderer{renderer} 
 {
-    this->m_rect.x = x * 32;
-    this->m_rect.y = y * 32;
-    this->m_rect.w = 32;
-    this->m_rect.h = 32;
+    this->m_rect.x = x * CELL_DIMENSION;
+    this->m_rect.y = y * CELL_DIMENSION;
+    this->m_rect.w = CELL_DIMENSION;
+    this->m_rect.h = CELL_DIMENSION;
 
     this->m_is_alive = false;
     this->m_living_neighbours = 0;
@@ -78,15 +83,33 @@ void Cell::update() {
  */
 void Cell::render() {
     if (this->m_is_alive) {
-        SDL_SetRenderDrawColor(this->m_renderer, 0, 255, 0, 255);
+        SDL_SetRenderDrawColor(
+            this->m_renderer, 
+            MIN_COLOR_VALUE, 
+            MAX_COLOR_VALUE, 
+            MIN_COLOR_VALUE, 
+            MAX_COLOR_VALUE
+        );
     }
     else {
-        SDL_SetRenderDrawColor(this->m_renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(
+            this->m_renderer, 
+            MIN_COLOR_VALUE, 
+            MIN_COLOR_VALUE, 
+            MIN_COLOR_VALUE, 
+            MAX_COLOR_VALUE
+        );
     }
     SDL_RenderFillRect(this->m_renderer, &this->m_rect);
 
     // Draw outline of cell.
-    SDL_SetRenderDrawColor(this->m_renderer, 51, 51, 51, 255);
+    SDL_SetRenderDrawColor(
+        this->m_renderer, 
+        GRAY_COLOR_VALUE, 
+        GRAY_COLOR_VALUE, 
+        GRAY_COLOR_VALUE, 
+        MAX_COLOR_VALUE
+    );
     SDL_RenderDrawRect(this->m_renderer, &this->m_rect);
 }
 
